@@ -69,3 +69,19 @@ h3 {
     border-color: black;
     padding: 4px;
 }
+
+#characterSheet .btn {
+    color: black;
+    background-color: lightgray;
+}
+
+#spellList .btn {
+    color: black;
+    background-color: lightgray;
+}
+
+#spellList {
+    text-align: center;
+    font-size: medium;
+}
+
