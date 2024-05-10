@@ -25,68 +25,68 @@
       <div id="abilityScores" class="col-sm-5 col-md-3 col-lg-2">
         <div id="str">
           <p>Strength</p>
-          <h3 id="value">8</h3>
+          <h3 id="strValue">8</h3>
           <button id="statInc" type="button" class="btn btn-secondary">&#8593;</button>
-          <button id="statDec" type="button" class="btn btn-secondary">v</button>
+          <button id="statDec" type="button" class="btn btn-secondary">&#8595;</button>
         </div>
         <div id="dex">
           <p>Dexterity</p>
-          <h3 id="value">12</h3>
+          <h3 id="dexValue">12</h3>
           <button id="statInc" type="button" class="btn btn-secondary">&#8593;</button>
           <button id="statDec" type="button" class="btn btn-secondary">&#8595;</button>
         </div>
         <div id="con">
           <p>Constitution</p>
-          <h3 id="value">14</h3>
+          <h3 id="conValue">14</h3>
           <button id="statInc" type="button" class="btn btn-secondary">&#8593;</button>
           <button id="statDec" type="button" class="btn btn-secondary">&#8595;</button>
         </div>
         <div id="int">
           <p>Intelligence</p>
-          <h3 id="value">8</h3>
+          <h3 id="intValue">8</h3>
           <button id="statInc" type="button" class="btn btn-secondary">&#8593;</button>
           <button id="statDec" type="button" class="btn btn-secondary">&#8595;</button>
         </div>
         <div id="wis">
           <p>Wisdom</p>
-          <h3 id="value">18</h3>
+          <h3 id="wisValue">18</h3>
           <button id="statInc" type="button" class="btn btn-secondary">&#8593;</button>
           <button id="statDec" type="button" class="btn btn-secondary">&#8595;</button>
         </div>
         <div id="cha">
           <p>Charisma</p>
-          <h3 id="value">10</h3>
+          <h3 id="chaValue">10</h3>
           <button id="statInc" type="button" class="btn btn-secondary">&#8593;</button>
           <button id="statDec" type="button" class="btn btn-secondary">&#8595;</button>
         </div>
       </div>
 
-      <div id="proficiency" class="col-sm-5 col-md-3 col-lg-2">
+      <div id="proficiency" class="col-sm-5 col-md-3">
         <div id="savingThrows">
           <h3>Saving Throws</h3>
           <div id="str" class="row no-gutters justify-content-center">
             <p class="col-6">str</p>
-            <h4 id="modifier" class="col-6">-1</h4>
+            <h4 id="strModifier" class="col-6">-1</h4>
           </div>
           <div id="dex" class="row no-gutters justify-content-center">
             <p class="col-6">dex</p>
-            <h4 id="modifier" class="col-6">+1</h4>
+            <h4 id="dexModifier" class="col-6">+1</h4>
           </div>
           <div id="con" class="row no-gutters justify-content-center">
             <p class="col-6">con</p>
-            <h4 id="modifier" class="col-6">+2</h4>
+            <h4 id="conModifier" class="col-6">+2</h4>
           </div>
           <div id="int" class="row no-gutters justify-content-center">
             <p class="col-6">int</p>
-            <h4 id="modifier" class="col-6">-1</h4>
+            <h4 id="intModifier" class="col-6">-1</h4>
           </div>
           <div id="wis" class="row no-gutters justify-content-center">
             <p class="col-6">wis</p>
-            <h4 id="modifier" class="col-6">+4</h4>
+            <h4 id="wisModifier" class="col-6">+4</h4>
           </div>
           <div id="cha" class="row no-gutters justify-content-center">
             <p class="col-6">cha</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <h4 id="chaModifier" class="col-6">0</h4>
           </div>
         </div>
 
@@ -167,7 +167,7 @@
         </div>
       </div>
 
-      <div id="info" class="col-7">
+      <div id="info" class="col-sm-11 col-md-6">
         <div class="row no-gutters justify-content-center">
           <div id="ac" class="col-4">
             <h3>AC</h3>
@@ -208,14 +208,13 @@
             <h3>Successes</h3>
             <h4 id="successCount">0</h4>
             <button id="succInc" type="button" class="btn btn-secondary">&#8593;</button>
-            <button id="succDec" type="button" class="btn btn-secondary">&#8595;</button>
           </div>
           <div id="deathFail" class="col-5">
             <h3>Fails</h3>
             <h4 id="failCount">0</h4>
             <button id="failInc" type="button" class="btn btn-secondary">&#8593;</button>
-            <button id="failDec" type="button" class="btn btn-secondary">&#8595;</button>
           </div>
+          <button id="deathReset" type="button" class="btn btn-secondary">Reset</button>
         </div>
 
 
@@ -232,12 +231,12 @@
   <script src="scripts/popper.js"></script>
   <script src="scripts/bootstrap-material-design.js"></script>
   <script>$("body").bootstrapMaterialDesign();</script>
-  <!-- <script src="/__/firebase/7.18.0/firebase-app.js"></script>
+  <script src="/__/firebase/7.18.0/firebase-app.js"></script>
   <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
   <script src="/__/firebase/7.18.0/firebase-auth.js"></script>
   <script src="/__/firebase/7.18.0/firebase-firestore.js"></script>
   <script src="/__/firebase/init.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.js"></script> -->
+  <script src="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.js"></script>
   <script src="scripts/main.js"></script>
 </body>
 

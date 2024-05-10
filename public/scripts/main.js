@@ -6,9 +6,24 @@ rhit.FB_KEY_MAINCLASS = "mainclass";
 rhit.FB_KEY_SUBCLASS = "subclass";
 rhit.FB_KEY_LAST_TOUCHED = "lastTouched";
 rhit.FB_KEY_AUTHOR = "author";
+rhit.FB_KEY_STR = "str";
+rhit.FB_KEY_DEX = "dex";
+rhit.FB_KEY_CON = "con";
+rhit.FB_KEY_INT = "int";
+rhit.FB_KEY_WIS = "wis";
+rhit.FB_KEY_CHA = "cha";
+rhit.FB_KEY_HP = "hp";
+rhit.FB_KEY_MAX_HP = "maxHP";
+rhit.FB_KEY_TEMP_HP = "tempHP";
+rhit.FB_KEY_AC = "ac";
+rhit.FB_KEY_SPEED = "speed";
+rhit.FB_KEY_PROFICIENCY = "proficiency";
 
 rhit.fbCharactersManager  = null;
 rhit.fbAuthManager = null;
+
+var deathSuccess = 0;
+var deathFail = 0;
 
 //From: https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
 function htmlToElement(html) {
@@ -80,6 +95,11 @@ rhit.initalizePage = function(){
 		new rhit.LoginPageController();
 
 	}
+
+	if(document.querySelector("#characterSheet")) {
+		console.log("You are on the chacter sheet");
+		new rhit.CharacterPageController();
+	}
 };
 
 rhit.FbCharactersManager = class {
@@ -96,6 +116,18 @@ rhit.FbCharactersManager = class {
 			[rhit.FB_KEY_SUBCLASS]: subclass,
 			[rhit.FB_KEY_AUTHOR]: rhit.fbAuthManager.uid,
 			[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now(),
+			[rhit.FB_KEY_STR]: 10,
+			[rhit.FB_KEY_DEX]: 10,
+			[rhit.FB_KEY_CON]: 10,
+			[rhit.FB_KEY_INT]: 10,
+			[rhit.FB_KEY_WIS]: 10,
+			[rhit.FB_KEY_CHA]: 10,
+			[rhit.FB_KEY_MAX_HP]: 0,
+			[rhit.FB_KEY_HP]: 0,
+			[rhit.FB_KEY_TEMP_HP]: 0,
+			[rhit.FB_KEY_SPEED]: 0,
+			[rhit.FB_KEY_AC]: 0,
+			[rhit.FB_KEY_PROFICIENCY]: 2,
 		})
 		.then(function (docRef) {
 			console.log("Document added with ID: ", docRef.id);
@@ -139,7 +171,7 @@ rhit.FbCharactersManager = class {
 	  this.id = id;
 	  this.name = name;
 	  this.mainclass = mainclass;
-	  this.subclass = subclass;  
+	  this.subclass = subclass;
 	}
    }
 
@@ -210,6 +242,95 @@ rhit.FbCharactersManager = class {
 	}
 }
 
+// character sheet page
+
+rhit.CharacterPageController = class{
+	constructor(){
+		
+		document.querySelector("#signOutButton").onclick = (event) => {
+			rhit.fbAuthManager.signOut();
+		}
+
+		document.querySelector("#succInc").onclick = (event) => {
+			deathSuccess++;
+			document.querySelector("#successCount").innerHTML = `${deathSuccess}`;
+		}
+		document.querySelector("#failInc").onclick = (event) => {
+			deathFail++;
+			document.querySelector("#failCount").innerHTML = `${deathFail}`;	
+		}
+		document.querySelector("#deathReset").onclick = (event) => {
+			deathSuccess = 0;
+			deathFail = 0;
+			document.querySelector("#successCount").innerHTML = `${deathSuccess}`;
+			document.querySelector("#failCount").innerHTML = `${deathFail}`;	
+
+		}
+		document.querySelector("#str > #statInc").onclick = (event) => {
+			this.updateView();
+		}
+
+		// rhit.fbSingleQuoteManager.beginListening(this.updateView.bind(this));
+	}
+
+	updateView() {
+		// document.querySelector("#strValue").innerHTML = ;
+	}
+}
+
+// rhit.fbSingleQuoteManager = class{
+// 	constructor(movieQuoteId) {
+// 		this._documentSnapshot = {}
+// 		this._unsubscribe = null;
+// 		this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_MOVIEQUOTE).doc(movieQuoteId);
+// 	}
+
+// 	beginListening(changeListener) {
+// 		this._unsubscribe = this._ref.onSnapshot((doc) => {
+// 			if(doc.exists){		
+// 				console.log("Document data:", doc.data());
+// 				this._documentSnapshot = doc;
+// 				changeListener();
+// 			} else{
+// 				console.log("No such document");
+// 			}
+// 		});
+// 	}
+
+// 	stopListening() {
+// 		this._unsubscribe();
+// 	}
+
+// 	update(quote, movie){
+// 		this._ref.update({
+// 			[rhit.FB_KEY_QUOTE]: quote,
+// 			[rhit.FB_KEY_MOVIE]: movie,
+// 			[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now()
+// 		})
+// 		.then(function() {
+// 		})
+// 		.catch(function(error) {
+// 		});
+// 	}
+
+// 	delete() {
+// 		return this._ref.delete()
+// 	}
+
+// 	get quote() {
+// 		return this._documentSnapshot.get(rhit.FB_KEY_QUOTE);
+// 	}
+// 	get movie() {
+// 		return this._documentSnapshot.get(rhit.FB_KEY_MOVIE);
+// 	}
+// 	get author() {
+// 		return this._documentSnapshot.get(rhit.FB_KEY_AUTHOR);
+// 	}
+// }
+
+// end of character sheet
+
+
 rhit.main = function () {
 	console.log("Ready");
 
@@ -220,7 +341,6 @@ rhit.main = function () {
 		rhit.checkForRedirects();
 
 		rhit.initalizePage();
-
 	});
 
  };
