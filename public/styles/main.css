@@ -119,3 +119,11 @@ h3 {
 .list-group-item :first-child {
     margin-right:0.75rem;
 }
+
+#characterSheet input {
+    margin-bottom: 0.6em;
+}
+
+#characterSheet p {
+    font-size: medium;
+}

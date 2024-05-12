@@ -65,28 +65,34 @@
         <div id="savingThrows">
           <h3>Saving Throws</h3>
           <div id="str" class="row no-gutters justify-content-center">
-            <p class="col-6">str</p>
-            <h4 id="strModifier" class="col-6">-1</h4>
+            <p class="col-1">str</p>
+            <input type="checkbox" class="checkbox" id="strProf" onclick="check(this)">
+            <h4 id="strModifier" class="col-7">&nbsp;</h4>
           </div>
           <div id="dex" class="row no-gutters justify-content-center">
-            <p class="col-6">dex</p>
-            <h4 id="dexModifier" class="col-6">+1</h4>
+            <p class="col-1">dex</p>
+            <input type="checkbox" class="checkbox" id="dexProf" onclick="check(this)">
+            <h4 id="dexModifier" class="col-7">&nbsp;</h4>
           </div>
           <div id="con" class="row no-gutters justify-content-center">
-            <p class="col-6">con</p>
-            <h4 id="conModifier" class="col-6">+2</h4>
+            <p class="col-1">con</p>
+            <input type="checkbox" class="checkbox" id="conProf" onclick="check(this)">
+            <h4 id="conModifier" class="col-7">&nbsp;</h4>
           </div>
           <div id="int" class="row no-gutters justify-content-center">
-            <p class="col-6">int</p>
-            <h4 id="intModifier" class="col-6">-1</h4>
+            <p class="col-1">int</p>
+            <input type="checkbox" class="checkbox" id="intProf" onclick="check(this)">
+            <h4 id="intModifier" class="col-7">&nbsp;</h4>
           </div>
           <div id="wis" class="row no-gutters justify-content-center">
-            <p class="col-6">wis</p>
-            <h4 id="wisModifier" class="col-6">+4</h4>
+            <p class="col-1">wis</p>
+            <input type="checkbox" class="checkbox" id="wisProf" onclick="check(this)">
+            <h4 id="wisModifier" class="col-7">&nbsp;</h4>
           </div>
           <div id="cha" class="row no-gutters justify-content-center">
-            <p class="col-6">cha</p>
-            <h4 id="chaModifier" class="col-6">0</h4>
+            <p class="col-1">cha</p>
+            <input type="checkbox" class="checkbox" id="chaProf" onclick="check(this)">
+            <h4 id="chaModifier" class="col-7">&nbsp;</h4>
           </div>
         </div>
 
@@ -94,75 +100,93 @@
           <h3>Skill Proficiencies</h3>
           <div id="acrobatics" class="row no-gutters justify-content-center">
             <p class="col-6">Acrobatics</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="acrobaticsProf" onclick="check(this)">
+            <h4 id="acrobaticsModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="animalHandling" class="row no-gutters justify-content-center">
             <p class="col-6">Animal Handling</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="animalProf" onclick="check(this)">
+            <h4 id="animalModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="arcana" class="row no-gutters justify-content-center">
             <p class="col-6">Arcana</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="arcanaProf" onclick="check(this)">
+            <h4 id="arcanaModifier" class="col-5">&nbsp;</h4>
           </div>          
           <div id="athletics" class="row no-gutters justify-content-center">
             <p class="col-6">Athletics</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="athleticsProf" onclick="check(this)">
+            <h4 id="athleticsModifier" class="col-5">&nbsp;</h4>
           </div>          
           <div id="deception" class="row no-gutters justify-content-center">
             <p class="col-6">Deception</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="deceptionProf" onclick="check(this)">
+            <h4 id="deceptionModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="history" class="row no-gutters justify-content-center">
             <p class="col-6">History</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="historyProf" onclick="check(this)">
+            <h4 id="historyModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="insight" class="row no-gutters justify-content-center">
             <p class="col-6">Insight</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="insightProf" onclick="check(this)">
+            <h4 id="insightModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="intimidation" class="row no-gutters justify-content-center">
             <p class="col-6">Intimidation</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="intimidationProf" onclick="check(this)">
+            <h4 id="intimidationModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="investigation" class="row no-gutters justify-content-center">
             <p class="col-6">Investigation</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="investigationProf" onclick="check(this)">
+            <h4 id="investigationModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="medicine" class="row no-gutters justify-content-center">
             <p class="col-6">Medicine</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="medicineProf" onclick="check(this)">
+            <h4 id="medicineModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="nature" class="row no-gutters justify-content-center">
             <p class="col-6">Nature</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="natureProf" onclick="check(this)">
+            <h4 id="natureModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="perception" class="row no-gutters justify-content-center">
             <p class="col-6">Perception</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="perceptionProf" onclick="check(this)">
+            <h4 id="perceptionModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="performance" class="row no-gutters justify-content-center">
             <p class="col-6">Performance</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="performanceProf" onclick="check(this)">
+            <h4 id="performanceModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="persuasion" class="row no-gutters justify-content-center">
             <p class="col-6">Persuasion</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="persuasionProf" onclick="check(this)">
+            <h4 id="persuasionModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="religion" class="row no-gutters justify-content-center">
             <p class="col-6">Religion</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="religionProf" onclick="check(this)">
+            <h4 id="religionModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="slightOfHand" class="row no-gutters justify-content-center">
             <p class="col-6">Slight of Hand</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="sleightProf" onclick="check(this)">
+            <h4 id="sleightModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="stealth" class="row no-gutters justify-content-center">
             <p class="col-6">Stealth</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="stealthProf" onclick="check(this)">
+            <h4 id="stealthModifier" class="col-5">&nbsp;</h4>
           </div>
           <div id="survival" class="row no-gutters justify-content-center">
             <p class="col-6">Survival</p>
-            <h4 id="modifier" class="col-6">0</h4>
+            <input type="checkbox" class="checkbox col-1" id="survivalProf" onclick="check(this)">
+            <h4 id="survivalModifier" class="col-5">&nbsp;</h4>
           </div>
         </div>
       </div>

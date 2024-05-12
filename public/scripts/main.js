@@ -1,4 +1,4 @@
-var rhit = rhit ||{};
+var rhit = rhit || {};
 
 rhit.FB_COLLECTION_CHARACTER = "Characters";
 rhit.FB_KEY_NAME = "name";
@@ -19,12 +19,23 @@ rhit.FB_KEY_AC = "ac";
 rhit.FB_KEY_SPEED = "speed";
 rhit.FB_KEY_PROFICIENCY = "proficiency";
 
-rhit.fbCharactersManager  = null;
+rhit.fbCharactersManager = null;
 rhit.fbSingleCharacterManager = null;
 rhit.fbAuthManager = null;
 
 var deathSuccess = 0;
 var deathFail = 0;
+
+function check(checkbox) {
+	if (checkbox.checked) {
+		//   alert("checked");
+		checkbox.checked = true;
+		rhit.fbSingleCharacterManager
+	} else {
+		//   alert("You didn't check it! Let me check it for you.");
+		checkbox.checked = false;
+	}
+}
 
 //From: https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
 function htmlToElement(html) {
@@ -32,26 +43,26 @@ function htmlToElement(html) {
 	html = html.trim();
 	template.innerHTML = html;
 	return template.content.firstChild;
-   }
+}
 
 rhit.FbAuthManager = class {
 	constructor() {
 		this._user = null;
-	  }
+	}
 
-	beginListening(changeListener){
-		firebase.auth().onAuthStateChanged((user)=> {
+	beginListening(changeListener) {
+		firebase.auth().onAuthStateChanged((user) => {
 			this._user = user;
 			changeListener();
 		});
 	}
 
-	signIn(){
+	signIn() {
 		rhit.startFirebaseUI();
 	}
 
 	signOut() {
-		firebase.auth().signOut().catch(function(error){
+		firebase.auth().signOut().catch(function (error) {
 			console.log("Sign out error");
 		});
 	}
@@ -66,21 +77,21 @@ rhit.FbAuthManager = class {
 
 };
 
-rhit.checkForRedirects = function(){
+rhit.checkForRedirects = function () {
 
-	if(document.querySelector("#loginPage") && rhit.fbAuthManager.isSignedIn){
+	if (document.querySelector("#loginPage") && rhit.fbAuthManager.isSignedIn) {
 		window.location.href = `/list.html?uid=${rhit.fbAuthManager.uid}`;
 	}
 
-	if(!document.querySelector("#loginPage") && !rhit.fbAuthManager.isSignedIn){
-		window.location.href ="/";
+	if (!document.querySelector("#loginPage") && !rhit.fbAuthManager.isSignedIn) {
+		window.location.href = "/";
 	}
 };
 
-	
-rhit.initalizePage = function(){
-	
-	if(document.querySelector("#listPage")){
+
+rhit.initalizePage = function () {
+
+	if (document.querySelector("#listPage")) {
 		const urlParams = new URLSearchParams(window.location.search);
 		console.log("You are on the list page");
 
@@ -91,19 +102,19 @@ rhit.initalizePage = function(){
 
 	}
 
-	if(document.querySelector("#loginPage")){
+	if (document.querySelector("#loginPage")) {
 		console.log("You are on the login page");
 		new rhit.LoginPageController();
 
 	}
 
-	if(document.querySelector("#characterSheet")) {
+	if (document.querySelector("#characterSheet")) {
 		const urlParams = new URLSearchParams(window.location.search);
 		console.log("You are on the chacter sheet");
 
 		const characterId = urlParams.get('id');
 
-		if(!characterId){
+		if (!characterId) {
 			console.log("Error: Missing character id");
 			window.location.href = "/";
 		}
@@ -115,12 +126,12 @@ rhit.initalizePage = function(){
 
 rhit.FbCharactersManager = class {
 	constructor(uid) {
-	  this._uid = uid;
-	  this._documentSnapshots = [];
-	  this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_CHARACTER);
-	  this._unsubscribe = null;
+		this._uid = uid;
+		this._documentSnapshots = [];
+		this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_CHARACTER);
+		this._unsubscribe = null;
 	}
-	add(name, mainclass, subclass) {  
+	add(name, mainclass, subclass) {
 		this._ref.add({
 			[rhit.FB_KEY_NAME]: name,
 			[rhit.FB_KEY_MAINCLASS]: mainclass,
@@ -140,32 +151,32 @@ rhit.FbCharactersManager = class {
 			[rhit.FB_KEY_AC]: 0,
 			[rhit.FB_KEY_PROFICIENCY]: 2,
 		})
-		.then(function (docRef) {
-			console.log("Document added with ID: ", docRef.id);
-		})
-		.catch(function (error) {
-			console.error("Error adding document: ", error);
-		});
-	  }
+			.then(function (docRef) {
+				console.log("Document added with ID: ", docRef.id);
+			})
+			.catch(function (error) {
+				console.error("Error adding document: ", error);
+			});
+	}
 
-	beginListening(changeListener) { 
-		let query = this._ref.orderBy(rhit.FB_KEY_LAST_TOUCHED,"desc").limit(50);
-		if(this._uid){
-			query=  query.where(rhit.FB_KEY_AUTHOR,"==",this._uid);
+	beginListening(changeListener) {
+		let query = this._ref.orderBy(rhit.FB_KEY_LAST_TOUCHED, "desc").limit(50);
+		if (this._uid) {
+			query = query.where(rhit.FB_KEY_AUTHOR, "==", this._uid);
 		}
-		this._unsubscribe = query.onSnapshot((querySnapshot)=>{
+		this._unsubscribe = query.onSnapshot((querySnapshot) => {
 			this._documentSnapshots = querySnapshot.docs;
-			
+
 			changeListener();
 		});
-	   }
-	stopListening() {    
+	}
+	stopListening() {
 		this._unsubscribe();
 	}
-	get length() {   
+	get length() {
 		return this._documentSnapshots.length;
-	 }
-	getCharacterAtIndex(index) {    
+	}
+	getCharacterAtIndex(index) {
 		const docSnapshot = this._documentSnapshots[index];
 		const mq = new rhit.Character(
 			docSnapshot.id,
@@ -173,35 +184,35 @@ rhit.FbCharactersManager = class {
 			docSnapshot.get(rhit.FB_KEY_MAINCLASS),
 			docSnapshot.get(rhit.FB_KEY_SUBCLASS));
 
-			return mq;
+		return mq;
 	}
-   }
+}
 
-   rhit.Character = class {
-	constructor(id,name, mainclass, subclass) {
-	  this.id = id;
-	  this.name = name;
-	  this.mainclass = mainclass;
-	  this.subclass = subclass;
+rhit.Character = class {
+	constructor(id, name, mainclass, subclass) {
+		this.id = id;
+		this.name = name;
+		this.mainclass = mainclass;
+		this.subclass = subclass;
 	}
-   }
+}
 
-   rhit.ListPageController = class {
+rhit.ListPageController = class {
 	constructor() {
 
-		document.querySelector("#menuShowMyCharacter").addEventListener("click",(event)=>{
+		document.querySelector("#menuShowMyCharacter").addEventListener("click", (event) => {
 
 			window.location.href = `/list.html?uid=${rhit.fbAuthManager.uid}`;
 		});
-		document.querySelector("#menuSignOut").addEventListener("click",(event)=>{
+		document.querySelector("#menuSignOut").addEventListener("click", (event) => {
 			rhit.fbAuthManager.signOut();
 		});
 
-		document.querySelector("#submitAddCharacter").addEventListener("click",(event)=>{
+		document.querySelector("#submitAddCharacter").addEventListener("click", (event) => {
 			const name = document.querySelector("#inputName").value;
 			const mainclass = document.querySelector("#inputMainClass").value;
 			const subclass = document.querySelector("#inputSubClass").value;
-			rhit.fbCharactersManager.add(name, mainclass,subclass);
+			rhit.fbCharactersManager.add(name, mainclass, subclass);
 			console.log("test");
 		});
 
@@ -217,7 +228,7 @@ rhit.FbCharactersManager = class {
 
 		rhit.fbCharactersManager.beginListening(this.updateList.bind(this));
 	}
-	_createCard(character){
+	_createCard(character) {
 		return htmlToElement(`<div class="card">
 		<div class="card-body">
 		  <h5 class="card-title">${character.name}</h5>
@@ -228,11 +239,11 @@ rhit.FbCharactersManager = class {
 	}
 	updateList() {
 		const newList = htmlToElement("<div id='characterListContainer'></div>")
-		for(let i =0;i<rhit.fbCharactersManager.length;i++){
+		for (let i = 0; i < rhit.fbCharactersManager.length; i++) {
 			const mq = rhit.fbCharactersManager.getCharacterAtIndex(i);
 			const newCard = this._createCard(mq);
 
-			newCard.onclick = (event)=>{
+			newCard.onclick = (event) => {
 				window.location.href = `/character.html?id=${mq.id}`;
 			};
 
@@ -243,23 +254,27 @@ rhit.FbCharactersManager = class {
 		oldList.hidden = true;
 		oldList.parentElement.appendChild(newList);
 	}
-   }
+}
 
-   rhit.LoginPageController = class {
-	constructor(){
+rhit.LoginPageController = class {
+	constructor() {
 		rhit.fbAuthManager.signIn();
-		
+
 	}
 }
 
 // character sheet page
 
-rhit.CharacterPageController = class{
-	constructor(){
-		
+rhit.CharacterPageController = class {
+	constructor() {
+
 		//Sign Out
 		document.querySelector("#signOutButton").onclick = (event) => {
 			rhit.fbAuthManager.signOut();
+		}
+
+		document.querySelector("#proficiency").onclick = (event) => {
+			this.updateView();
 		}
 
 		//Death Saves
@@ -269,7 +284,7 @@ rhit.CharacterPageController = class{
 		}
 		document.querySelector("#failInc").onclick = (event) => {
 			deathFail++;
-			document.querySelector("#failCount").innerHTML = `${deathFail}`;	
+			document.querySelector("#failCount").innerHTML = `${deathFail}`;
 		}
 		document.querySelector("#deathReset").onclick = (event) => {
 			deathSuccess = 0;
@@ -280,22 +295,22 @@ rhit.CharacterPageController = class{
 
 		//Dice Rolling
 		document.querySelector("#rollD20").onclick = (event) => {
-			document.querySelector("#D20result").innerHTML = Math.floor(Math.random()*20 + 1)
+			document.querySelector("#D20result").innerHTML = Math.floor(Math.random() * 20 + 1)
 		}
 		document.querySelector("#rollD12").onclick = (event) => {
-			document.querySelector("#D12result").innerHTML = Math.floor(Math.random()*12 + 1)
+			document.querySelector("#D12result").innerHTML = Math.floor(Math.random() * 12 + 1)
 		}
 		document.querySelector("#rollD10").onclick = (event) => {
-			document.querySelector("#D10result").innerHTML = Math.floor(Math.random()*10 + 1)
+			document.querySelector("#D10result").innerHTML = Math.floor(Math.random() * 10 + 1)
 		}
 		document.querySelector("#rollD8").onclick = (event) => {
-			document.querySelector("#D8result").innerHTML = Math.floor(Math.random()*8 + 1)
+			document.querySelector("#D8result").innerHTML = Math.floor(Math.random() * 8 + 1)
 		}
 		document.querySelector("#rollD6").onclick = (event) => {
-			document.querySelector("#D6result").innerHTML = Math.floor(Math.random()*6 + 1)
+			document.querySelector("#D6result").innerHTML = Math.floor(Math.random() * 6 + 1)
 		}
 		document.querySelector("#rollD4").onclick = (event) => {
-			document.querySelector("#D4result").innerHTML = Math.floor(Math.random()*4 + 1)
+			document.querySelector("#D4result").innerHTML = Math.floor(Math.random() * 4 + 1)
 		}
 
 		//Stat Changes
@@ -360,14 +375,142 @@ rhit.CharacterPageController = class{
 		document.querySelector("#wisValue").innerHTML = rhit.fbSingleCharacterManager.wis;
 		document.querySelector("#chaValue").innerHTML = rhit.fbSingleCharacterManager.cha;
 
-		//saving throws
+		let prof = rhit.fbSingleCharacterManager.proficiency;
 
-		//ability checks
-		
+		//saving throws
+		if (document.getElementById("strProf").checked) {
+			document.querySelector("#strModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.str - 10) / 2 + prof)
+		} else {
+			document.querySelector("#strModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.str - 10) / 2)
+		}
+
+		if (document.getElementById("dexProf").checked) {
+			document.querySelector("#dexModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.dex - 10) / 2 + prof)
+		} else {
+			document.querySelector("#dexModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.dex - 10) / 2)
+		}
+
+		if (document.getElementById("conProf").checked) {
+			document.querySelector("#conModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.con - 10) / 2 + prof)
+		} else {
+			document.querySelector("#conModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.con - 10) / 2)
+		}
+
+		if (document.getElementById("intProf").checked) {
+			document.querySelector("#intModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.int - 10) / 2 + prof)
+		} else {
+			document.querySelector("#intModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.int - 10) / 2)
+		}
+
+		if (document.getElementById("wisProf").checked) {
+			document.querySelector("#wisModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.wis - 10) / 2 + prof)
+		} else {
+			document.querySelector("#wisModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.wis - 10) / 2)
+		}
+
+		if (document.getElementById("chaProf").checked) {
+			document.querySelector("#chaModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.cha - 10) / 2 + prof)
+		} else {
+			document.querySelector("#chaModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.cha - 10) / 2)
+		}
+
+
+		//ability scores
+		if (document.getElementById("acrobaticsProf").checked) {
+			document.querySelector("#acrobaticsModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.dex - 10) / 2 + prof)
+		} else {
+			document.querySelector("#acrobaticsModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.dex - 10) / 2)
+		}
+		if (document.getElementById("animalProf").checked) {
+			document.querySelector("#animalModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.wis - 10) / 2 + prof)
+		} else {
+			document.querySelector("#animalModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.wis - 10) / 2)
+		}
+		if (document.getElementById("arcanaProf").checked) {
+			document.querySelector("#arcanaModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.int - 10) / 2 + prof)
+		} else {
+			document.querySelector("#arcanaModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.int - 10) / 2)
+		}
+		if (document.getElementById("athleticsProf").checked) {
+			document.querySelector("#athleticsModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.str - 10) / 2 + prof)
+		} else {
+			document.querySelector("#athleticsModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.str - 10) / 2)
+		}
+		if (document.getElementById("deceptionProf").checked) {
+			document.querySelector("#deceptionModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.cha - 10) / 2 + prof)
+		} else {
+			document.querySelector("#deceptionModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.cha - 10) / 2)
+		}
+		if (document.getElementById("historyProf").checked) {
+			document.querySelector("#historyModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.int - 10) / 2 + prof)
+		} else {
+			document.querySelector("#historyModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.int - 10) / 2)
+		}
+		if (document.getElementById("insightProf").checked) {
+			document.querySelector("#insightModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.wis - 10) / 2 + prof)
+		} else {
+			document.querySelector("#insightModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.wis - 10) / 2)
+		}
+		if (document.getElementById("intimidationProf").checked) {
+			document.querySelector("#intimidationModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.cha - 10) / 2 + prof)
+		} else {
+			document.querySelector("#intimidationModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.cha - 10) / 2)
+		}
+		if (document.getElementById("investigationProf").checked) {
+			document.querySelector("#investigationModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.int - 10) / 2 + prof)
+		} else {
+			document.querySelector("#investigationModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.int - 10) / 2)
+		}
+		if (document.getElementById("medicineProf").checked) {
+			document.querySelector("#medicineModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.wis - 10) / 2 + prof)
+		} else {
+			document.querySelector("#medicineModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.wis - 10) / 2)
+		}
+		if (document.getElementById("natureProf").checked) {
+			document.querySelector("#natureModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.int - 10) / 2 + prof)
+		} else {
+			document.querySelector("#natureModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.int - 10) / 2)
+		}
+		if (document.getElementById("perceptionProf").checked) {
+			document.querySelector("#perceptionModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.wis - 10) / 2 + prof)
+		} else {
+			document.querySelector("#perceptionModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.wis - 10) / 2)
+		}
+		if (document.getElementById("performanceProf").checked) {
+			document.querySelector("#performanceModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.cha - 10) / 2 + prof)
+		} else {
+			document.querySelector("#performanceModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.cha - 10) / 2)
+		}
+		if (document.getElementById("persuasionProf").checked) {
+			document.querySelector("#persuasionModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.cha - 10) / 2 + prof)
+		} else {
+			document.querySelector("#persuasionModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.cha - 10) / 2)
+		}
+		if (document.getElementById("religionProf").checked) {
+			document.querySelector("#religionModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.int - 10) / 2 + prof)
+		} else {
+			document.querySelector("#religionModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.int - 10) / 2)
+		}
+		if (document.getElementById("sleightProf").checked) {
+			document.querySelector("#sleightModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.dex - 10) / 2 + prof)
+		} else {
+			document.querySelector("#sleightModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.dex - 10) / 2)
+		}
+		if (document.getElementById("stealthProf").checked) {
+			document.querySelector("#stealthModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.dex - 10) / 2 + prof)
+		} else {
+			document.querySelector("#stealthModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.dex - 10) / 2)
+		}
+		if (document.getElementById("survivalProf").checked) {
+			document.querySelector("#survivalModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.wis - 10) / 2 + prof)
+		} else {
+			document.querySelector("#survivalModifier").innerHTML = Math.floor((rhit.fbSingleCharacterManager.wis - 10) / 2)
+		}
+
 	}
 }
 
-rhit.fbSingleCharacterManager = class{
+rhit.fbSingleCharacterManager = class {
 	constructor(characterId) {
 		this._documentSnapshot = {}
 		this._unsubscribe = null;
@@ -376,11 +519,11 @@ rhit.fbSingleCharacterManager = class{
 
 	beginListening(changeListener) {
 		this._unsubscribe = this._ref.onSnapshot((doc) => {
-			if(doc.exists){		
+			if (doc.exists) {
 				console.log("Document data:", doc.data());
 				this._documentSnapshot = doc;
 				changeListener();
-			} else{
+			} else {
 				console.log("No such document");
 			}
 		});
@@ -449,6 +592,9 @@ rhit.fbSingleCharacterManager = class{
 	get cha() {
 		return this._documentSnapshot.get(rhit.FB_KEY_CHA);
 	}
+	get proficiency() {
+		return this._documentSnapshot.get(rhit.FB_KEY_PROFICIENCY);
+	}
 
 
 }
@@ -468,20 +614,20 @@ rhit.main = function () {
 		rhit.initalizePage();
 	});
 
- };
+};
 
- rhit.startFirebaseUI = function(){
-	 var uiConfig = {
-	    signInOptions: [
-          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-          firebase.auth.EmailAuthProvider.PROVIDER_ID,
-          firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-          firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
-        ],
-      };
-      const ui = new firebaseui.auth.AuthUI(firebase.auth());
-      ui.start('#firebaseui-auth-container', uiConfig);
- }
- 
+rhit.startFirebaseUI = function () {
+	var uiConfig = {
+		signInOptions: [
+			firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+			firebase.auth.EmailAuthProvider.PROVIDER_ID,
+			firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+			firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+		],
+	};
+	const ui = new firebaseui.auth.AuthUI(firebase.auth());
+	ui.start('#firebaseui-auth-container', uiConfig);
+}
+
 
 rhit.main();
