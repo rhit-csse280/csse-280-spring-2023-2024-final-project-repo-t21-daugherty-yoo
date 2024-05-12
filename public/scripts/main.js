@@ -20,6 +20,7 @@ rhit.FB_KEY_SPEED = "speed";
 rhit.FB_KEY_PROFICIENCY = "proficiency";
 
 rhit.fbCharactersManager  = null;
+rhit.fbSingleCharacterManager = null;
 rhit.fbAuthManager = null;
 
 var deathSuccess = 0;
@@ -97,7 +98,17 @@ rhit.initalizePage = function(){
 	}
 
 	if(document.querySelector("#characterSheet")) {
+		const urlParams = new URLSearchParams(window.location.search);
 		console.log("You are on the chacter sheet");
+
+		const characterId = urlParams.get('id');
+
+		if(!characterId){
+			console.log("Error: Missing character id");
+			window.location.href = "/";
+		}
+
+		rhit.fbSingleCharacterManager = new rhit.fbSingleCharacterManager(characterId);
 		new rhit.CharacterPageController();
 	}
 };
@@ -223,7 +234,6 @@ rhit.FbCharactersManager = class {
 
 			newCard.onclick = (event)=>{
 				window.location.href = `/character.html?id=${mq.id}`;
-
 			};
 
 			newList.appendChild(newCard);
@@ -247,10 +257,12 @@ rhit.FbCharactersManager = class {
 rhit.CharacterPageController = class{
 	constructor(){
 		
+		//Sign Out
 		document.querySelector("#signOutButton").onclick = (event) => {
 			rhit.fbAuthManager.signOut();
 		}
 
+		//Death Saves
 		document.querySelector("#succInc").onclick = (event) => {
 			deathSuccess++;
 			document.querySelector("#successCount").innerHTML = `${deathSuccess}`;
@@ -263,70 +275,183 @@ rhit.CharacterPageController = class{
 			deathSuccess = 0;
 			deathFail = 0;
 			document.querySelector("#successCount").innerHTML = `${deathSuccess}`;
-			document.querySelector("#failCount").innerHTML = `${deathFail}`;	
-
+			document.querySelector("#failCount").innerHTML = `${deathFail}`;
 		}
+
+		//Dice Rolling
+		document.querySelector("#rollD20").onclick = (event) => {
+			document.querySelector("#D20result").innerHTML = Math.floor(Math.random()*20 + 1)
+		}
+		document.querySelector("#rollD12").onclick = (event) => {
+			document.querySelector("#D12result").innerHTML = Math.floor(Math.random()*12 + 1)
+		}
+		document.querySelector("#rollD10").onclick = (event) => {
+			document.querySelector("#D10result").innerHTML = Math.floor(Math.random()*10 + 1)
+		}
+		document.querySelector("#rollD8").onclick = (event) => {
+			document.querySelector("#D8result").innerHTML = Math.floor(Math.random()*8 + 1)
+		}
+		document.querySelector("#rollD6").onclick = (event) => {
+			document.querySelector("#D6result").innerHTML = Math.floor(Math.random()*6 + 1)
+		}
+		document.querySelector("#rollD4").onclick = (event) => {
+			document.querySelector("#D4result").innerHTML = Math.floor(Math.random()*4 + 1)
+		}
+
+		//Stat Changes
 		document.querySelector("#str > #statInc").onclick = (event) => {
+			rhit.fbSingleCharacterManager.updateStr(1);
+			this.updateView();
+		}
+		document.querySelector("#str > #statDec").onclick = (event) => {
+			rhit.fbSingleCharacterManager.updateStr(-1);
+			this.updateView();
+		}
+		document.querySelector("#dex > #statInc").onclick = (event) => {
+			rhit.fbSingleCharacterManager.updateDex(1);
+			this.updateView();
+		}
+		document.querySelector("#dex > #statDec").onclick = (event) => {
+			rhit.fbSingleCharacterManager.updateDex(-1);
+			this.updateView();
+		}
+		document.querySelector("#con > #statInc").onclick = (event) => {
+			rhit.fbSingleCharacterManager.updateCon(1);
+			this.updateView();
+		}
+		document.querySelector("#con > #statDec").onclick = (event) => {
+			rhit.fbSingleCharacterManager.updateCon(-1);
+			this.updateView();
+		}
+		document.querySelector("#int > #statInc").onclick = (event) => {
+			rhit.fbSingleCharacterManager.updateInt(1);
+			this.updateView();
+		}
+		document.querySelector("#int > #statDec").onclick = (event) => {
+			rhit.fbSingleCharacterManager.updateInt(-1);
+			this.updateView();
+		}
+		document.querySelector("#wis > #statInc").onclick = (event) => {
+			rhit.fbSingleCharacterManager.updateWis(1);
+			this.updateView();
+		}
+		document.querySelector("#wis > #statDec").onclick = (event) => {
+			rhit.fbSingleCharacterManager.updateWis(-1);
+			this.updateView();
+		}
+		document.querySelector("#cha > #statInc").onclick = (event) => {
+			rhit.fbSingleCharacterManager.updateCha(1);
+			this.updateView();
+		}
+		document.querySelector("#cha > #statDec").onclick = (event) => {
+			rhit.fbSingleCharacterManager.updateCha(-1);
 			this.updateView();
 		}
 
-		// rhit.fbSingleQuoteManager.beginListening(this.updateView.bind(this));
+		rhit.fbSingleCharacterManager.beginListening(this.updateView.bind(this));
 	}
 
 	updateView() {
-		// document.querySelector("#strValue").innerHTML = ;
+		//stats
+		document.querySelector("#strValue").innerHTML = rhit.fbSingleCharacterManager.str;
+		document.querySelector("#dexValue").innerHTML = rhit.fbSingleCharacterManager.dex;
+		document.querySelector("#conValue").innerHTML = rhit.fbSingleCharacterManager.con;
+		document.querySelector("#intValue").innerHTML = rhit.fbSingleCharacterManager.int;
+		document.querySelector("#wisValue").innerHTML = rhit.fbSingleCharacterManager.wis;
+		document.querySelector("#chaValue").innerHTML = rhit.fbSingleCharacterManager.cha;
+
+		//saving throws
+
+		//ability checks
+		
 	}
 }
 
-// rhit.fbSingleQuoteManager = class{
-// 	constructor(movieQuoteId) {
-// 		this._documentSnapshot = {}
-// 		this._unsubscribe = null;
-// 		this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_MOVIEQUOTE).doc(movieQuoteId);
-// 	}
+rhit.fbSingleCharacterManager = class{
+	constructor(characterId) {
+		this._documentSnapshot = {}
+		this._unsubscribe = null;
+		this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_CHARACTER).doc(characterId);
+	}
 
-// 	beginListening(changeListener) {
-// 		this._unsubscribe = this._ref.onSnapshot((doc) => {
-// 			if(doc.exists){		
-// 				console.log("Document data:", doc.data());
-// 				this._documentSnapshot = doc;
-// 				changeListener();
-// 			} else{
-// 				console.log("No such document");
-// 			}
-// 		});
-// 	}
+	beginListening(changeListener) {
+		this._unsubscribe = this._ref.onSnapshot((doc) => {
+			if(doc.exists){		
+				console.log("Document data:", doc.data());
+				this._documentSnapshot = doc;
+				changeListener();
+			} else{
+				console.log("No such document");
+			}
+		});
+	}
 
-// 	stopListening() {
-// 		this._unsubscribe();
-// 	}
+	stopListening() {
+		this._unsubscribe();
+	}
 
-// 	update(quote, movie){
-// 		this._ref.update({
-// 			[rhit.FB_KEY_QUOTE]: quote,
-// 			[rhit.FB_KEY_MOVIE]: movie,
-// 			[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now()
-// 		})
-// 		.then(function() {
-// 		})
-// 		.catch(function(error) {
-// 		});
-// 	}
+	updateStr(num) {
+		let newValue = this.str + num;
+		this._ref.update({
+			[rhit.FB_KEY_STR]: newValue
+		})
+	}
+	updateDex(num) {
+		let newValue = this.dex + num;
+		this._ref.update({
+			[rhit.FB_KEY_DEX]: newValue
+		})
+	}
+	updateCon(num) {
+		let newValue = this.con + num;
+		this._ref.update({
+			[rhit.FB_KEY_CON]: newValue
+		})
+	}
+	updateInt(num) {
+		let newValue = this.int + num;
+		this._ref.update({
+			[rhit.FB_KEY_INT]: newValue
+		})
+	}
+	updateWis(num) {
+		let newValue = this.wis + num;
+		this._ref.update({
+			[rhit.FB_KEY_WIS]: newValue
+		})
+	}
+	updateCha(num) {
+		let newValue = this.cha + num;
+		this._ref.update({
+			[rhit.FB_KEY_CHA]: newValue
+		})
+	}
 
-// 	delete() {
-// 		return this._ref.delete()
-// 	}
+	delete() {
+		return this._ref.delete()
+	}
 
-// 	get quote() {
-// 		return this._documentSnapshot.get(rhit.FB_KEY_QUOTE);
-// 	}
-// 	get movie() {
-// 		return this._documentSnapshot.get(rhit.FB_KEY_MOVIE);
-// 	}
-// 	get author() {
-// 		return this._documentSnapshot.get(rhit.FB_KEY_AUTHOR);
-// 	}
-// }
+	get str() {
+		return this._documentSnapshot.get(rhit.FB_KEY_STR);
+	}
+	get dex() {
+		return this._documentSnapshot.get(rhit.FB_KEY_DEX);
+	}
+	get con() {
+		return this._documentSnapshot.get(rhit.FB_KEY_CON);
+	}
+	get int() {
+		return this._documentSnapshot.get(rhit.FB_KEY_INT);
+	}
+	get wis() {
+		return this._documentSnapshot.get(rhit.FB_KEY_WIS);
+	}
+	get cha() {
+		return this._documentSnapshot.get(rhit.FB_KEY_CHA);
+	}
+
+
+}
 
 // end of character sheet
 
