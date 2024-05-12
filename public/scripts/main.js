@@ -268,11 +268,86 @@ rhit.LoginPageController = class {
 rhit.CharacterPageController = class {
 	constructor() {
 
+		//AC Modal
+		$("#editACDialog").on("show.bs.modal", () => {
+			document.querySelector("#editAC").value = "";
+			document.querySelector("#editAC").focus();
+		});
+
+		document.querySelector("#submitEditAC").addEventListener("click", (event) => {
+			const ac = document.querySelector("#editAC").value;
+			rhit.fbSingleCharacterManager.updateAC(ac);
+			this.updateView();
+		});
+
+		//Proficiency Modal
+		$("#editPBDialog").on("show.bs.modal", () => {
+			document.querySelector("#editPB").value = "";
+			document.querySelector("#editPB").focus();
+		});
+
+		document.querySelector("#submitEditPB").addEventListener("click", (event) => {
+			const pb = document.querySelector("#editPB").value;
+			rhit.fbSingleCharacterManager.updateProficiency(pb);
+			this.updateView();
+		});
+
+		//Speed Modal
+		$("#editSpeedDialog").on("show.bs.modal", () => {
+			document.querySelector("#editSpeed").value = "";
+			document.querySelector("#editSpeed").focus();
+		});
+
+		document.querySelector("#submitEditSpeed").addEventListener("click", (event) => {
+			const speed = document.querySelector("#editSpeed").value;
+			rhit.fbSingleCharacterManager.updateSpeed(speed);
+			this.updateView();
+		});
+
+		//Temp HP Modal
+		$("#editTempHPDialog").on("show.bs.modal", () => {
+			document.querySelector("#editTempHP").value = "";
+			document.querySelector("#editTempHP").focus();
+		});
+
+		document.querySelector("#submitEditTempHP").addEventListener("click", (event) => {
+			const temp = document.querySelector("#editTempHP").value;
+			rhit.fbSingleCharacterManager.updateTempHP(temp);
+			this.updateView();
+		});
+
+		//Max HP Modal
+		$("#editMaxHPDialog").on("show.bs.modal", () => {
+			document.querySelector("#editMaxHP").value = "";
+			document.querySelector("#editMaxHP").focus();
+		});
+
+		document.querySelector("#submitEditMaxHP").addEventListener("click", (event) => {
+			const max = document.querySelector("#editMaxHP").value;
+			rhit.fbSingleCharacterManager.updateMaxHP(max);
+			this.updateView();
+		});
+
+		//Current HP Modal
+		$("#editHPDialog").on("show.bs.modal", () => {
+			document.querySelector("#editHP").value = "";
+			document.querySelector("#editHP").focus();
+		});
+
+		document.querySelector("#submitEditHP").addEventListener("click", (event) => {
+			const hp = document.querySelector("#editHP").value;
+			rhit.fbSingleCharacterManager.updateHP(hp);
+			this.updateView();
+		});
+
+
+
 		//Sign Out
 		document.querySelector("#signOutButton").onclick = (event) => {
 			rhit.fbAuthManager.signOut();
 		}
 
+		//Proficiency
 		document.querySelector("#proficiency").onclick = (event) => {
 			this.updateView();
 		}
@@ -367,6 +442,11 @@ rhit.CharacterPageController = class {
 	}
 
 	updateView() {
+		//Name
+		document.querySelector("#characterName").innerHTML = rhit.fbSingleCharacterManager.name;
+		document.querySelector("#characterClass").innerHTML = rhit.fbSingleCharacterManager.class;
+		document.querySelector("#characterSubclass").innerHTML = rhit.fbSingleCharacterManager.subclass;
+
 		//stats
 		document.querySelector("#strValue").innerHTML = rhit.fbSingleCharacterManager.str;
 		document.querySelector("#dexValue").innerHTML = rhit.fbSingleCharacterManager.dex;
@@ -376,6 +456,16 @@ rhit.CharacterPageController = class {
 		document.querySelector("#chaValue").innerHTML = rhit.fbSingleCharacterManager.cha;
 
 		let prof = rhit.fbSingleCharacterManager.proficiency;
+
+		//info
+		document.querySelector("#acValue").innerHTML = rhit.fbSingleCharacterManager.ac;
+		document.querySelector("#speedValue").innerHTML = `${rhit.fbSingleCharacterManager.speed}ft`;
+		document.querySelector("#pb").innerHTML = `+${rhit.fbSingleCharacterManager.proficiency}`;
+		document.querySelector("#initiativeBonus").innerHTML = Math.floor((rhit.fbSingleCharacterManager.dex - 10) / 2);
+		document.querySelector("#tempHPValue").innerHTML = rhit.fbSingleCharacterManager.tempHP;
+		document.querySelector("#maxHPValue").innerHTML = rhit.fbSingleCharacterManager.maxHP;
+		document.querySelector("#currentHPValue").innerHTML = rhit.fbSingleCharacterManager.hp;
+
 
 		//saving throws
 		if (document.getElementById("strProf").checked) {
@@ -569,6 +659,36 @@ rhit.fbSingleCharacterManager = class {
 			[rhit.FB_KEY_CHA]: newValue
 		})
 	}
+	updateAC(ac) {
+		this._ref.update({
+			[rhit.FB_KEY_AC]: ac
+		})
+	}
+	updateProficiency(pb) {
+		this._ref.update({
+			[rhit.FB_KEY_PROFICIENCY]: pb
+		})
+	}
+	updateSpeed(speed) {
+		this._ref.update({
+			[rhit.FB_KEY_SPEED]: speed
+		})
+	}
+	updateTempHP(tempHP) {
+		this._ref.update({
+			[rhit.FB_KEY_TEMP_HP]: tempHP
+		})
+	}
+	updateMaxHP(maxHP) {
+		this._ref.update({
+			[rhit.FB_KEY_MAX_HP]: maxHP
+		})
+	}
+	updateHP(hp) {
+		this._ref.update({
+			[rhit.FB_KEY_HP]: hp
+		})
+	}
 
 	delete() {
 		return this._ref.delete()
@@ -594,6 +714,30 @@ rhit.fbSingleCharacterManager = class {
 	}
 	get proficiency() {
 		return this._documentSnapshot.get(rhit.FB_KEY_PROFICIENCY);
+	}
+	get speed() {
+		return this._documentSnapshot.get(rhit.FB_KEY_SPEED);
+	}
+	get ac() {
+		return this._documentSnapshot.get(rhit.FB_KEY_AC);
+	}
+	get class() {
+		return this._documentSnapshot.get(rhit.FB_KEY_MAINCLASS);
+	}
+	get subclass() {
+		return this._documentSnapshot.get(rhit.FB_KEY_SUBCLASS);
+	}
+	get name() {
+		return this._documentSnapshot.get(rhit.FB_KEY_NAME);
+	}
+	get tempHP() {
+		return this._documentSnapshot.get(rhit.FB_KEY_TEMP_HP);
+	}
+	get maxHP() {
+		return this._documentSnapshot.get(rhit.FB_KEY_MAX_HP);
+	}
+	get hp() {
+		return this._documentSnapshot.get(rhit.FB_KEY_HP);
 	}
 
 

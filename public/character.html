@@ -16,9 +16,12 @@
     <button id="signOutButton" type="button" class="btn text-light">Sign Out</button>
   </nav>
   <div id="characterSheet" class="container page-container">
-
-    <h1 id="characterName" class="row no-gutters justify-content-center" >Example Name</h1>
-    <h2 id="characterClass" class="row no-gutters justify-content-center">Example Class - Subclass</h2>
+    <h1 id="characterName" class="row no-gutters justify-content-center" >&nbsp;</h1>
+    <div class="row no-gutters justify-content-center">
+      <h2 id="characterClass">&nbsp;</h2>
+      <h2>&nbsp;&nbsp;-&nbsp;&nbsp;</h2>
+      <h2 id="characterSubclass">&nbsp;</h2>
+    </div>
     <hr>
     <div id="statContainer" class="row no-gutters justify-content-center">
       
@@ -193,37 +196,37 @@
 
       <div id="info" class="col-sm-11 col-md-6">
         <div class="row no-gutters justify-content-center">
-          <div id="ac" class="col-4">
+          <div id="ac" class="col-4" data-toggle="modal" data-target="#editACDialog">
             <h3>AC</h3>
-            <h4>18</h4>
+            <h4 id="acValue">&nbsp;</h4>
           </div>
-          <div id="proficiencyBonus" class="col-4">
+          <div id="proficiencyBonus" class="col-4" data-toggle="modal" data-target="#editPBDialog">
             <h3>PB</h3>
-            <h4>+3</h4>
+            <h4 id="pb">&nbsp;</h4>
           </div>
-          <div id="speed" class="col-4">
+          <div id="speed" class="col-4" data-toggle="modal" data-target="#editSpeedDialog">
             <h3>Speed</h3>
-            <h4>30ft</h4>
+            <h4 id="speedValue">&nbsp;</h4>
           </div>
         </div>
         <div class="row no-gutters justify-content-center">
-          <div id="tempHP" class="col-4">
+          <div id="tempHP" class="col-4" data-toggle="modal" data-target="#editTempHPDialog">
             <h3>tempHP</h3>
-            <h4>5</h4>
+            <h4 id="tempHPValue">&nbsp;</h4>
           </div>
-          <div id="maxHP" class="col-4">
+          <div id="maxHP" class="col-4" data-toggle="modal" data-target="#editMaxHPDialog">
             <h3>maxHP</h3>
-            <h4>37</h4>
+            <h4 id="maxHPValue">&nbsp;</h4>
           </div>
           <div id="initiative" class="col-4">
             <h3>Initiative</h3>
-            <h4>+1</h4>
+            <h4 id="initiativeBonus">&nbsp;</h4>
           </div>
         </div>
         <div class="row no-gutters justify-content-center">
-          <div id="currentHP">
+          <div id="currentHP" data-toggle="modal" data-target="#editHPDialog">
             <h3>Current HP</h3>
-            <h4>24</h4>
+            <h4 id="currentHPValue">&nbsp;</h4>
           </div>
         </div>
         <div class="row no-gutters justify-content-center">
@@ -268,12 +271,137 @@
           </div>
         </div>
 
-
-
       </div>
 
-
     </div>
+
+
+    <!-- AC Modal -->
+  <div class="modal fade" id="editACDialog" tabindex="-1" role="dialog" aria-labelledby="Edit AC Dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Enter New Armour Class</h5>
+        </div>
+        <div class="modal-body">
+            <div class="form-group bdm-form-group">
+              <label for="editAC">New AC</label>
+              <input type="text" class="form-control" id="editAC">
+            </div>  
+         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCLE</button>
+          <button id="submitEditAC" type="button" class="btn btn-primary" data-dismiss="modal">CONFIRM</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- PB Modal -->
+   <div class="modal fade" id="editPBDialog" tabindex="-1" role="dialog" aria-labelledby="Edit PB Dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Enter New Proficiency Bonus</h5>
+        </div>
+        <div class="modal-body">
+            <div class="form-group bdm-form-group">
+              <label for="editPB">New PB</label>
+              <input type="text" class="form-control" id="editPB">
+            </div>  
+         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCLE</button>
+          <button id="submitEditPB" type="button" class="btn btn-primary" data-dismiss="modal">CONFIRM</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- Speed Modal -->
+   <div class="modal fade" id="editSpeedDialog" tabindex="-1" role="dialog" aria-labelledby="Edit Speed Dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Enter New Speed</h5>
+        </div>
+        <div class="modal-body">
+            <div class="form-group bdm-form-group">
+              <label for="editSpeed">New Speed</label>
+              <input type="text" class="form-control" id="editSpeed">
+            </div>  
+         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCLE</button>
+          <button id="submitEditSpeed" type="button" class="btn btn-primary" data-dismiss="modal">CONFIRM</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- Temp HP Modal -->
+   <div class="modal fade" id="editTempHPDialog" tabindex="-1" role="dialog" aria-labelledby="Edit Temp HP Dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Enter New Temp HP</h5>
+        </div>
+        <div class="modal-body">
+            <div class="form-group bdm-form-group">
+              <label for="editTempHP">New AC</label>
+              <input type="text" class="form-control" id="editTempHP">
+            </div>  
+         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCLE</button>
+          <button id="submitEditTempHP" type="button" class="btn btn-primary" data-dismiss="modal">CONFIRM</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- Max HP Modal -->
+   <div class="modal fade" id="editMaxHPDialog" tabindex="-1" role="dialog" aria-labelledby="Edit Max HP Dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Enter New Max HP</h5>
+        </div>
+        <div class="modal-body">
+            <div class="form-group bdm-form-group">
+              <label for="editMaxHP">New Max HP</label>
+              <input type="text" class="form-control" id="editMaxHP">
+            </div>  
+         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCLE</button>
+          <button id="submitEditMaxHP" type="button" class="btn btn-primary" data-dismiss="modal">CONFIRM</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- Current HP Modal -->
+   <div class="modal fade" id="editHPDialog" tabindex="-1" role="dialog" aria-labelledby="Edit HP Dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Enter New HP</h5>
+        </div>
+        <div class="modal-body">
+            <div class="form-group bdm-form-group">
+              <label for="editHP">New AC</label>
+              <input type="text" class="form-control" id="editHP">
+            </div>  
+         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCLE</button>
+          <button id="submitEditHP" type="button" class="btn btn-primary" data-dismiss="modal">CONFIRM</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 
 
