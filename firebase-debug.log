@@ -1,0 +1,22 @@
+[debug] [2024-05-16T18:20:43.635Z] ----------------------------------------------------------------------
+[debug] [2024-05-16T18:20:43.636Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\yoob\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2024-05-16T18:20:43.637Z] CLI Version:   13.4.0
+[debug] [2024-05-16T18:20:43.637Z] Platform:      win32
+[debug] [2024-05-16T18:20:43.637Z] Node Version:  v18.13.0
+[debug] [2024-05-16T18:20:43.637Z] Time:          Thu May 16 2024 14:20:43 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-05-16T18:20:43.637Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-16T18:20:43.685Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-16T18:20:43.686Z] > authorizing via signed-in user (ibrianyoo@gmail.com)
+[debug] [2024-05-16T18:20:43.686Z] [iam] checking project rpg-stats-tracker for permissions ["firebase.projects.get"]
+[debug] [2024-05-16T18:20:43.687Z] > refreshing access token with scopes: []
+[debug] [2024-05-16T18:20:43.688Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-05-16T18:20:43.688Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-05-16T18:20:43.797Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2024-05-16T18:20:43.797Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-05-16T18:20:43.805Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/rpg-stats-tracker:testIamPermissions [none]
+[debug] [2024-05-16T18:20:43.805Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/rpg-stats-tracker:testIamPermissions x-goog-quota-user=projects/rpg-stats-tracker
+[debug] [2024-05-16T18:20:43.805Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/rpg-stats-tracker:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2024-05-16T18:20:43.908Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/rpg-stats-tracker:testIamPermissions 200
+[debug] [2024-05-16T18:20:43.909Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/rpg-stats-tracker:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2024-05-16T18:20:43.910Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/rpg-stats-tracker [none]
