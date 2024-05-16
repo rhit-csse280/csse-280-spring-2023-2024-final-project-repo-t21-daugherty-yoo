@@ -231,7 +231,7 @@ rhit.CompanionPageController = class {
 			window.location.href = `/spells.html?id=${rhit.fbSingleCompanionManager.ids}`;
 		});
 		document.querySelector("#charactersButton").addEventListener("click", (event) => {
-			window.location.href = `/companions.html?id=${rhit.fbSingleCompanionManager.ids}`;
+			window.location.href = `/character.html?id=${rhit.fbSingleCompanionManager.ids}`;
 		});
 
 		document.querySelector("#companionCharacterName").innerHTML = "name andfas";
