@@ -131,3 +131,7 @@ h3 {
 #characterSheet p {
     font-size: medium;
 }
+
+#spellPage div {
+    margin: 2px;
+}
