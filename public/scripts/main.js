@@ -34,6 +34,16 @@ rhit.fbAuthManager = null;
 
 var deathSuccess = 0;
 var deathFail = 0;
+var firstLvlSpells = 0;
+var secondLvlSpells = 0;
+var thirdLvlSpells = 0;
+var fourthLvlSpells = 0;
+var fifthLvlSpells = 0;
+var sixthLvlSpells = 0;
+var seventhLvlSpells = 0;
+var eighthLvlSpells = 0;
+var ninthLvlSpells = 0;
+
 
 function check(checkbox) {
 	if (checkbox.checked) {
@@ -234,7 +244,6 @@ rhit.CompanionPageController = class {
 			window.location.href = `/character.html?id=${rhit.fbSingleCompanionManager.ids}`;
 		});
 
-		document.querySelector("#companionCharacterName").innerHTML = "name andfas";
 		document.querySelector("#submitAddCompanion").addEventListener("click", (event) => {
 			const name = document.querySelector("#inputCompanionName").value;
 			const hp = document.querySelector("#inputCompanionHP").value;
@@ -354,8 +363,6 @@ rhit.SpellPageController = class {
 		document.querySelector("#companionsButton").addEventListener("click", (event) => {
 			window.location.href = `/companions.html?id=${rhit.fbSingleSpellManager.ids}`;
 		});
-
-		document.querySelector("#characterNameSpellPage").innerHTML = "Name adsjfasd";
 		
 		document.querySelector("#submitAddSpell").addEventListener("click", (event) => {
 			const name = document.querySelector("#inputSpellName").value;
@@ -371,6 +378,107 @@ rhit.SpellPageController = class {
 		$("#addSpellDialog").on("shown.bs.modal", () => {
 			document.querySelector("#inputSpellName").focus();
 		});
+
+
+		//Spell Slot Buttons
+		document.querySelector("#firstInc").onclick = (event) => {
+			firstLvlSpells++;
+			document.querySelector("#firstSpells").innerHTML = firstLvlSpells;
+		}
+		document.querySelector("#firstDec").onclick = (event) => {
+			if(firstLvlSpells > 0){
+				firstLvlSpells--;
+				document.querySelector("#firstSpells").innerHTML = firstLvlSpells;
+			}
+		}
+
+		document.querySelector("#secondInc").onclick = (event) => {
+			secondLvlSpells++;
+			document.querySelector("#secondSpells").innerHTML = secondLvlSpells;
+		}
+		document.querySelector("#secondDec").onclick = (event) => {
+			if(secondLvlSpells > 0){
+				secondLvlSpells--;
+				document.querySelector("#secondSpells").innerHTML = secondLvlSpells;
+			}
+		}
+
+		document.querySelector("#thirdInc").onclick = (event) => {
+			thirdLvlSpells++;
+			document.querySelector("#thirdSpells").innerHTML = thirdLvlSpells;
+		}
+		document.querySelector("#thirdDec").onclick = (event) => {
+			if(thirdLvlSpells > 0){
+				thirdLvlSpells--;
+				document.querySelector("#thirdSpells").innerHTML = thirdLvlSpells;
+			}
+		}
+
+		document.querySelector("#fourthInc").onclick = (event) => {
+			fourthLvlSpells++;
+			document.querySelector("#fourthSpells").innerHTML = fourthLvlSpells;
+		}
+		document.querySelector("#fourthDec").onclick = (event) => {
+			if(fourthLvlSpells > 0){
+				fourthLvlSpells--;
+				document.querySelector("#fourthSpells").innerHTML = fourthLvlSpells;
+			}
+		}
+
+		document.querySelector("#fifthInc").onclick = (event) => {
+			fifthLvlSpells++;
+			document.querySelector("#fifthSpells").innerHTML = fifthLvlSpells;
+		}
+		document.querySelector("#fifthDec").onclick = (event) => {
+			if(fifthLvlSpells > 0){
+				fifthLvlSpells--;
+				document.querySelector("#fifthSpells").innerHTML = fifthLvlSpells;
+			}
+		}
+
+		document.querySelector("#sixthInc").onclick = (event) => {
+			sixthLvlSpells++;
+			document.querySelector("#sixthSpells").innerHTML = sixthLvlSpells;
+		}
+		document.querySelector("#sixthDec").onclick = (event) => {
+			if(sixthLvlSpells > 0){
+				sixthLvlSpells--;
+				document.querySelector("#sixthSpells").innerHTML = sixthLvlSpells;
+			}
+		}
+
+		document.querySelector("#seventhInc").onclick = (event) => {
+			seventhLvlSpells++;
+			document.querySelector("#seventhSpells").innerHTML = seventhLvlSpells;
+		}
+		document.querySelector("#seventhDec").onclick = (event) => {
+			if(seventhLvlSpells > 0){
+				seventhLvlSpells--;
+				document.querySelector("#seventhSpells").innerHTML = seventhLvlSpells;
+			}
+		}
+
+		document.querySelector("#eighthInc").onclick = (event) => {
+			eighthLvlSpells++;
+			document.querySelector("#eighthSpells").innerHTML = eighthLvlSpells;
+		}
+		document.querySelector("#eighthDec").onclick = (event) => {
+			if(eighthLvlSpells > 0){
+				eighthLvlSpells--;
+				document.querySelector("#eighthSpells").innerHTML = eighthLvlSpells;
+			}
+		}
+		
+		document.querySelector("#ninthInc").onclick = (event) => {
+			ninthLvlSpells++;
+			document.querySelector("#ninthSpells").innerHTML = ninthLvlSpells;
+		}
+		document.querySelector("#ninthDec").onclick = (event) => {
+			if(ninthLvlSpells > 0){
+				ninthLvlSpells--;
+				document.querySelector("#ninthSpells").innerHTML = ninthLvlSpells;
+			}
+		}
 
 		rhit.fbSingleSpellManager.beginListening(this.updateList.bind(this));
 	}
