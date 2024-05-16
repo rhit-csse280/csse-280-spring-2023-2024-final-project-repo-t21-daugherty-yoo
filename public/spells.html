@@ -13,11 +13,34 @@
 <body>
   <nav class="navbar navbar-dark fixed-top">
     <a class="navbar-brand" href="#">RPG Stats Tracker</a>
-    <button id="signOutButton" type="button" class="btn text-light">Sign Out</button>
   </nav>
-  <div id="spellList" class="container page-container">
 
-    <h1 id="characterName">Example Name</h1>
+  <div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay">
+    <header class="bmd-layout-header">
+      <div class="navbar navbar-dark bg-faded fixed-top justify-content-start">
+        <button class="navbar-toggler" type="button" data-toggle="drawer" data-target="#dw-s2">
+          <span class="sr-only">Toggle drawer</span>
+          <i class="material-icons">menu</i>
+        </button>
+        <a class="navbar-brand" href="#">&nbsp;&nbsp; Character List</a>
+      </div>
+    </header>
+
+    <div id="dw-s2" class="bmd-layout-drawer bg-faded">
+      <header>
+        <a class="navbar-brand">Character List</a>
+      </header>
+      <ul class="list-group">
+        <a id="menuShowMyCharacter" class="list-group-item"><i class="material-icons">person</i>Show my Character</a>
+        <a id="characterButton" class="list-group-item"><i class="material-icons">login</i>Characters</a>
+        <a id="companionsButton" class="list-group-item"><i class="material-icons">login</i>Companions</a>
+        <a id="signOutButton" class="list-group-item"><i class="material-icons">login</i>Sign Out</a>
+      </ul>
+    </div>
+
+  <div id="spellPage" class="container page-container">
+
+    <h1 id="characterNameSpellPage">Example Name</h1>
     <h2>Spell List</h2>
     <hr>
     <h3>Current Spell Slots</h3>
@@ -80,43 +103,53 @@
     </div>
 
     <hr>
-  
+
     <main class="bmd-layout-content">
+      <div id="spellListPage" class="container page-container">
+        <div id="spellListContainer"></div>
+      </div>
+    </main>
+
+    <!-- <main class="bmd-layout-content">
       <div id="listPage" class="container page-container">
         <div id="spellListContainer">
           <h3>Spell Name</h3>
           <h4>Spell Level</h4>
         </div>
       </div>
-    </main>
+    </main> -->
 
-    <!-- Modal Example-->
-  <!-- <div class="modal fade" id="addClass" tabindex="-1" role="dialog" aria-labelledby="Add quote dialog"
+
+    <button id="fab" type="button" class="btn bmd-btn-fab" data-toggle="modal" data-target="#addSpellDialog">
+      <i class="material-icons">add</i>
+    </button>
+
+    <!-- Modal -->
+  <div class="modal fade" id="addSpellDialog" tabindex="-1" role="dialog" aria-labelledby="Add Spell dialog"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addQuoteDialogLabel">Add Movie Quote</h5>
+          <h5 class="modal-title" id="addSpellDialogModal">Enter Spell Information</h5>
         </div>
         <div class="modal-body">
 
           <div class="form-group bmd-form-group">
-            <label for="inputQuote" class="bmd-label-floating">Quote</label>
-            <input type="text" class="form-control" id="inputQuote">
+            <label for="inputSpellName">Name</label>
+            <input type="text" class="form-control" id="inputSpellName">
           </div>
           <div class="form-group bmd-form-group">
-            <label for="inputMovie" class="bmd-label-floating">Movie</label>
-            <input type="text" class="form-control" id="inputMovie">
-            <span class="bmd-help">What movie is this quote from</span>
+            <label for="inputSpellLevel">Level</label>
+            <input type="text" class="form-control" id="inputSpellLevel">
           </div>
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
-          <button id="submitAddQuote" type="button" class="btn btn-primary" data-dismiss="modal">CREATE</button>
+          <button id="submitAddSpell" type="button" class="btn btn-primary" data-dismiss="modal">CREATE</button>
         </div>
       </div>
-    </div> -->
+    </div>
 
   </div>
   <script src="scripts/jquery.min.js"></script>

@@ -1,5 +1,5 @@
 body {
-    background: #DDDDDD;
+    background: lightgray;
 }
 
 .navbar {
@@ -75,12 +75,16 @@ h3 {
     background-color: lightgray;
 }
 
-#spellList .btn {
+#spellPage, .btn {
     color: black;
     background-color: lightgray;
 }
 
-#spellList {
+#spellPage {
+    text-align: center;
+    font-size: medium;
+}
+#companionPage {
     text-align: center;
     font-size: medium;
 }

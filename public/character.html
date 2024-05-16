@@ -13,8 +13,31 @@
 <body>
   <nav class="navbar navbar-dark fixed-top">
     <a class="navbar-brand" href="#">RPG Stats Tracker</a>
-    <button id="signOutButton" type="button" class="btn text-light">Sign Out</button>
   </nav>
+  
+  <div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay">
+    <header class="bmd-layout-header">
+      <div class="navbar navbar-dark bg-faded fixed-top justify-content-start">
+        <button class="navbar-toggler" type="button" data-toggle="drawer" data-target="#dw-s2">
+          <span class="sr-only">Toggle drawer</span>
+          <i class="material-icons">menu</i>
+        </button>
+        <a class="navbar-brand" href="#">&nbsp;&nbsp; Character List</a>
+      </div>
+    </header>
+
+    <div id="dw-s2" class="bmd-layout-drawer bg-faded">
+      <header>
+        <a class="navbar-brand">Character List</a>
+      </header>
+      <ul class="list-group">
+        <a id="menuShowMyCharacter" class="list-group-item"><i class="material-icons">person</i>Show my Character</a>
+        <a id="spellsButton" class="list-group-item"><i class="material-icons">login</i>Spells</a>
+        <a id="companionsButton" class="list-group-item"><i class="material-icons">login</i>Companions</a>
+        <a id="signOutButton" class="list-group-item"><i class="material-icons">login</i>Sign Out</a>
+      </ul>
+    </div>
+
   <div id="characterSheet" class="container page-container">
     <h1 id="characterName" class="row no-gutters justify-content-center" >&nbsp;</h1>
     <div class="row no-gutters justify-content-center">

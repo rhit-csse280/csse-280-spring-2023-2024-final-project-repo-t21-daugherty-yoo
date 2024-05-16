@@ -13,50 +13,80 @@
 <body>
   <nav class="navbar navbar-dark fixed-top">
     <a class="navbar-brand" href="#">RPG Stats Tracker</a>
-    <button id="signOutButton" type="button" class="btn text-light">Sign Out</button>
   </nav>
-  <div id="spellList" class="container page-container">
+  <div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay">
+    <header class="bmd-layout-header">
+      <div class="navbar navbar-dark bg-faded fixed-top justify-content-start">
+        <button class="navbar-toggler" type="button" data-toggle="drawer" data-target="#dw-s2">
+          <span class="sr-only">Toggle drawer</span>
+          <i class="material-icons">menu</i>
+        </button>
+        <a class="navbar-brand" href="#">&nbsp;&nbsp; Character List</a>
+      </div>
+    </header>
 
-    <h1 id="characterName">Example Name</h1>
+    <div id="dw-s2" class="bmd-layout-drawer bg-faded">
+      <header>
+        <a class="navbar-brand">Character List</a>
+      </header>
+      <ul class="list-group">
+        <a id="menuShowMyCharacter" class="list-group-item"><i class="material-icons">person</i>Show my Character</a>
+        <a id="charactersButton" class="list-group-item"><i class="material-icons">login</i>Character</a>
+        <a id="spellsButton" class="list-group-item"><i class="material-icons">login</i>Spells</a>
+        <a id="signOutButton" class="list-group-item"><i class="material-icons">login</i>Sign Out</a>
+      </ul>
+    </div>
+  <div id="companionPage" class="container page-container">
+
+    <h1 id="companionCharacterName">Example Name</h1>
     <h2>Companions</h2>
     <hr>
 
-    <main class="bmd-layout-content">
+    <!-- <main class="bmd-layout-content">
       <div id="listPage" class="container page-container">
         <div id="companionListContainer">
           <h3 id="companionName">Companion Name</h3>
           <p id="companionHP">Companion HP</p>
         </div>
       </div>
+    </main> -->
+
+    <main class="bmd-layout-content">
+      <div id="companionListPage" class="container page-container">
+        <div id="companionListContainer"></div>
+      </div>
     </main>
     
+    <button id="fab" type="button" class="btn bmd-btn-fab" data-toggle="modal" data-target="#addCompanionDialog">
+      <i class="material-icons">add</i>
+    </button>
+
     <!-- Modal Example-->
-  <!-- <div class="modal fade" id="addClass" tabindex="-1" role="dialog" aria-labelledby="Add quote dialog"
+    <div class="modal fade" id="addCompanionDialog" tabindex="-1" role="dialog" aria-labelledby="Add Companion dialog"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addQuoteDialogLabel">Add Movie Quote</h5>
+          <h5 class="modal-title" id="addCompanionDialogModal">Enter Companion Information</h5>
         </div>
         <div class="modal-body">
 
           <div class="form-group bmd-form-group">
-            <label for="inputQuote" class="bmd-label-floating">Quote</label>
-            <input type="text" class="form-control" id="inputQuote">
+            <label for="inputCompanionName">Name</label>
+            <input type="text" class="form-control" id="inputCompanionName">
           </div>
           <div class="form-group bmd-form-group">
-            <label for="inputMovie" class="bmd-label-floating">Movie</label>
-            <input type="text" class="form-control" id="inputMovie">
-            <span class="bmd-help">What movie is this quote from</span>
+            <label for="inputCompanionHP">HP</label>
+            <input type="text" class="form-control" id="inputCompanionHP">
           </div>
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
-          <button id="submitAddQuote" type="button" class="btn btn-primary" data-dismiss="modal">CREATE</button>
+          <button id="submitAddCompanion" type="button" class="btn btn-primary" data-dismiss="modal">CREATE</button>
         </div>
       </div>
-    </div> -->
+    </div>
 
   </div>
   <script src="scripts/jquery.min.js"></script>
