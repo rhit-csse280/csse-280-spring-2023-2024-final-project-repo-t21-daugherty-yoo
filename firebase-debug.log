@@ -1,22 +1,22 @@
-[debug] [2024-05-16T18:20:43.635Z] ----------------------------------------------------------------------
-[debug] [2024-05-16T18:20:43.636Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\yoob\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
-[debug] [2024-05-16T18:20:43.637Z] CLI Version:   13.4.0
-[debug] [2024-05-16T18:20:43.637Z] Platform:      win32
-[debug] [2024-05-16T18:20:43.637Z] Node Version:  v18.13.0
-[debug] [2024-05-16T18:20:43.637Z] Time:          Thu May 16 2024 14:20:43 GMT-0400 (Eastern Daylight Time)
-[debug] [2024-05-16T18:20:43.637Z] ----------------------------------------------------------------------
+[debug] [2024-05-18T22:36:10.632Z] ----------------------------------------------------------------------
+[debug] [2024-05-18T22:36:10.633Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\yoob\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-05-18T22:36:10.633Z] CLI Version:   13.4.0
+[debug] [2024-05-18T22:36:10.633Z] Platform:      win32
+[debug] [2024-05-18T22:36:10.634Z] Node Version:  v18.13.0
+[debug] [2024-05-18T22:36:10.635Z] Time:          Sat May 18 2024 18:36:10 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-05-18T22:36:10.635Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2024-05-16T18:20:43.685Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2024-05-16T18:20:43.686Z] > authorizing via signed-in user (ibrianyoo@gmail.com)
-[debug] [2024-05-16T18:20:43.686Z] [iam] checking project rpg-stats-tracker for permissions ["firebase.projects.get"]
-[debug] [2024-05-16T18:20:43.687Z] > refreshing access token with scopes: []
-[debug] [2024-05-16T18:20:43.688Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
-[debug] [2024-05-16T18:20:43.688Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2024-05-16T18:20:43.797Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
-[debug] [2024-05-16T18:20:43.797Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2024-05-16T18:20:43.805Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/rpg-stats-tracker:testIamPermissions [none]
-[debug] [2024-05-16T18:20:43.805Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/rpg-stats-tracker:testIamPermissions x-goog-quota-user=projects/rpg-stats-tracker
-[debug] [2024-05-16T18:20:43.805Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/rpg-stats-tracker:testIamPermissions {"permissions":["firebase.projects.get"]}
-[debug] [2024-05-16T18:20:43.908Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/rpg-stats-tracker:testIamPermissions 200
-[debug] [2024-05-16T18:20:43.909Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/rpg-stats-tracker:testIamPermissions {"permissions":["firebase.projects.get"]}
-[debug] [2024-05-16T18:20:43.910Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/rpg-stats-tracker [none]
+[debug] [2024-05-18T22:36:10.637Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2024-05-18T22:36:10.711Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-18T22:36:10.711Z] > authorizing via signed-in user (ibrianyoo@gmail.com)
+[debug] [2024-05-18T22:36:10.711Z] [iam] checking project rpg-stats-tracker for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-05-18T22:36:10.712Z] > refreshing access token with scopes: []
+[debug] [2024-05-18T22:36:10.712Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-05-18T22:36:10.712Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-05-18T22:36:10.795Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2024-05-18T22:36:10.795Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2024-05-18T22:36:10.801Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2024-05-18T22:36:10.801Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-05-18T22:36:10.805Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/rpg-stats-tracker:testIamPermissions [none]
+[debug] [2024-05-18T22:36:10.805Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/rpg-stats-tracker:testIamPermissions x-goog-quota-user=projects/rpg-stats-tracker
+[debug] [2024-05-18T22:36:10.805Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/rpg-stats-tracker:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}

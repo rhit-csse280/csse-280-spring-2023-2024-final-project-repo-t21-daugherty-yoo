@@ -30,6 +30,8 @@ rhit.fbCharactersManager = null;
 rhit.fbSingleCharacterManager = null;
 rhit.fbSingleSpellManager = null;
 rhit.fbSingleCompanionManager = null;
+rhit.fbSingleSpellsDetailManager = null;
+rhit.fbSingleCompanionsDetailManager = null;
 rhit.fbAuthManager = null;
 
 var deathSuccess = 0;
@@ -110,18 +112,46 @@ rhit.checkForRedirects = function () {
 
 rhit.initalizePage = function () {
 
+	if(document.querySelector("#spellDetailPage")){
+		console.log("you are on the spell detail page");
+		const urlParams = new URLSearchParams(window.location.search);
+		const spellId = urlParams.get("id");
+
+		if (!spellId) {
+			console.log("Error: Missing spell id");
+			window.location.href = "/";
+		}
+
+		rhit.fbSingleSpellsDetailManager = new rhit.FbSingleSpellDetailManager(spellId);
+		new rhit.SpellDetailPageController();
+	}
+
+	if(document.querySelector("#companionDetailPage")){
+		console.log("you are on the companion detail page");
+		const urlParams = new URLSearchParams(window.location.search);
+		const companionId = urlParams.get("id");
+
+		if (!companionId) {
+			console.log("Error: Missing companion id");
+			window.location.href = "/";
+		}
+
+		rhit.fbSingleCompanionsDetailManager = new rhit.FbSingleCompanionDetailManager(companionId);
+		new rhit.CompanionDetailPageController();
+	}
+
 	if(document.querySelector("#spellPage")) {
 		const urlParams = new URLSearchParams(window.location.search);
 		console.log("You are on the spell page");
 
-		const characterId = urlParams.get('id');
+		const spellId = urlParams.get('id');
 
-		if (!characterId) {
-			console.log("Error: Missing character id");
+		if (!spellId) {
+			console.log("Error: Missing spell id");
 			window.location.href = "/";
 		}
 
-		rhit.fbSingleSpellManager = new rhit.fbSingleSpellManager(characterId);
+		rhit.fbSingleSpellManager = new rhit.fbSingleSpellManager(spellId);
 		new rhit.SpellPageController();
 
 	}
@@ -130,14 +160,14 @@ rhit.initalizePage = function () {
 		const urlParams = new URLSearchParams(window.location.search);
 		console.log("You are on the companion page");
 
-		const characterId = urlParams.get('id');
+		const companionId = urlParams.get('id');
 
-		if (!characterId) {
-			console.log("Error: Missing character id");
+		if (!companionId) {
+			console.log("Error: Missing companion id");
 			window.location.href = "/";
 		}
 
-		rhit.fbSingleCompanionManager = new rhit.fbSingleCompanionManager(characterId);
+		rhit.fbSingleCompanionManager = new rhit.fbSingleCompanionManager(companionId);
 		new rhit.CompanionPageController();
 
 	}
@@ -161,6 +191,8 @@ rhit.initalizePage = function () {
 	}
 
 	if (document.querySelector("#characterSheet")) {
+		console.log(localStorage.getItem("currentCharacterId"));
+
 		const urlParams = new URLSearchParams(window.location.search);
 		console.log("You are on the chacter sheet");
 
@@ -230,7 +262,7 @@ rhit.fbSingleCompanionManager = class {
 rhit.CompanionPageController = class {
 	constructor(){
 		document.querySelector("#menuShowMyCharacter").addEventListener("click", (event) => {
-
+			localStorage.setItem("currentCharacterId",null);
 			window.location.href = `/list.html?uid=${rhit.fbAuthManager.uid}`;
 		});
 		// Sign Out
@@ -266,8 +298,8 @@ rhit.CompanionPageController = class {
 	_createCard(companion) {
 		return htmlToElement(`<div class="card">
 		<div class="card-body">
-		  <h5 class="card-title">${companion.name}</h5>
-		  <p class="card-text">${companion.hp}</p>
+		<h5 class="card-title">${companion.name}</h5>
+		<p class="card-text">${companion.hp}</p>
 		</div>
 	  </div>`);
 	}
@@ -280,7 +312,7 @@ rhit.CompanionPageController = class {
 			const newCard = this._createCard(mq);
 
 			newCard.onclick = (event) => {
-				window.location.href = `/companions.html?id=${mq.id}`;
+				window.location.href = `/companion.html?id=${mq.id}`;
 			};
 
 			newList.appendChild(newCard);
@@ -291,6 +323,108 @@ rhit.CompanionPageController = class {
 		oldList.parentElement.appendChild(newList);
 	}
 }
+
+rhit.CompanionDetailPageController = class {
+	constructor() {
+
+		document.querySelector("#menuShowMyCharacter").addEventListener("click", (event) => {
+			localStorage.setItem("currentCharacterId",null);
+			window.location.href = `/list.html?uid=${rhit.fbAuthManager.uid}`;
+		});
+		document.querySelector("#signOutButton").addEventListener("click", (event) => {
+			rhit.fbAuthManager.signOut();
+		});
+		document.querySelector("#spellsButton").addEventListener("click", (event) => {
+			window.location.href = `/spells.html?id=${localStorage.getItem("currentCharacterId")}`;
+		});
+		document.querySelector("#companionsButton").addEventListener("click", (event) => {
+			window.location.href = `/companions.html?id=${localStorage.getItem("currentCharacterId")}`;
+		});
+		document.querySelector("#charactersButton").addEventListener("click", (event) => {
+			window.location.href = `/character.html?id=${localStorage.getItem("currentCharacterId")}`;
+		});
+
+		document.querySelector("#submitEditCompanion").addEventListener("click",(event)=>{
+			const name = document.querySelector("#inputName").value;
+			const hp = document.querySelector("#inputHP").value;
+			rhit.fbSingleCompanionsDetailManager.update(name, hp);
+
+		});
+
+		$("#editCompanionDialog").on("show.bs.modal", () => {
+			document.querySelector("#inputName").value = rhit.fbSingleCompanionsDetailManager.name;
+			document.querySelector("#inputHP").value = rhit.fbSingleCompanionsDetailManager.hp;
+		});
+
+		$("#editCompanionDialog").on("shown.bs.modal", () => {
+			document.querySelector("#inputName").focus();
+		});
+
+		document.querySelector("#submitDeleteCompanion").addEventListener("click",(event)=>{
+			rhit.fbSingleCompanionsDetailManager.delete().then(function(){
+				window.location.href=`/Companions.html?id=${localStorage.getItem("currentCharacterId")}`; 
+			}).catch(function(error){
+	
+			});
+
+		});
+		rhit.fbSingleCompanionsDetailManager.beginListening(this.updateView.bind(this));
+	}
+	updateView() {  
+		document.querySelector("#cardName").innerHTML = rhit.fbSingleCompanionsDetailManager.name;
+		document.querySelector("#cardHP").innerHTML = rhit.fbSingleCompanionsDetailManager.hp;
+
+		if(rhit.fbSingleCompanionsDetailManager.author==rhit.fbAuthManager.uid){
+			document.querySelector("#menuEdit").style.display = "flex";
+			document.querySelector("#menuDelete").style.display = "flex";
+
+		}
+	}
+   }
+
+   rhit.FbSingleCompanionDetailManager = class {
+	constructor(companionId) {
+	  this._documentSnapshot = {};
+	  this._unsubscribe = null;
+	  this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_CHARACTER).doc(localStorage.getItem("currentCharacterId")).collection(rhit.FB_COLLECTION_COMPANIONS).doc(companionId);
+	  console.log(companionId);
+	  console.log(localStorage.getItem("currentCharacterId"));
+	}
+	beginListening(changeListener) {
+		this._unsubscribe = this._ref.onSnapshot((doc)=>{
+			if(doc.exists){
+				this._documentSnapshot = doc;
+				changeListener();
+			}
+			else{
+				console.log("ERROR");
+			}
+		});
+	}
+	stopListening() {
+	  this._unsubscribe();
+	}
+	update(name, hp) {
+		this._ref.update({
+			[rhit.FB_KEY_COMPANION_NAME]: name,
+			[rhit.FB_KEY_COMPANION_HP]: hp,
+			[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now(),
+		})
+	}
+	delete() {
+		return this._ref.delete();
+	}
+
+	get name(){
+		return this._documentSnapshot.get(rhit.FB_KEY_COMPANION_NAME);
+	}
+	get hp(){
+		return this._documentSnapshot.get(rhit.FB_KEY_COMPANION_HP);
+	}
+	get author(){
+		return this._documentSnapshot.get(rhit.FB_KEY_AUTHOR);
+	}
+   }
 
 //spell page
 rhit.fbSingleSpellManager = class {
@@ -350,7 +484,7 @@ rhit.fbSingleSpellManager = class {
 rhit.SpellPageController = class {
 	constructor() {
 		document.querySelector("#menuShowMyCharacter").addEventListener("click", (event) => {
-
+			localStorage.setItem("currentCharacterId",null);
 			window.location.href = `/list.html?uid=${rhit.fbAuthManager.uid}`;
 		});
 		// Sign Out
@@ -496,7 +630,12 @@ rhit.SpellPageController = class {
 		for (let i = 0; i < rhit.fbSingleSpellManager.length; i++) {
 			const mq = rhit.fbSingleSpellManager.getCharacterAtIndex(i);
 			const newCard = this._createCard(mq);
-	
+			
+			newCard.onclick = (event)=>{
+				window.location.href = `/spell.html?id=${mq.id}`;
+
+			};
+
 			newList.appendChild(newCard);
 		}
 		const oldList = document.querySelector("#spellListContainer");
@@ -506,6 +645,105 @@ rhit.SpellPageController = class {
 	}
 }
 
+rhit.SpellDetailPageController = class {
+	constructor() {
+
+		document.querySelector("#menuShowMyCharacter").addEventListener("click", (event) => {
+			localStorage.setItem("currentCharacterId",null);
+			window.location.href = `/list.html?uid=${rhit.fbAuthManager.uid}`;
+		});
+		document.querySelector("#spellsButton").addEventListener("click", (event) => {
+			window.location.href = `/spells.html?id=${localStorage.getItem("currentCharacterId")}`;
+		});
+		document.querySelector("#signOutButton").addEventListener("click", (event) => {
+			rhit.fbAuthManager.signOut();
+		});
+		document.querySelector("#characterButton").addEventListener("click", (event) => {
+			window.location.href = `/character.html?id=${localStorage.getItem("currentCharacterId")}`;
+		});
+		document.querySelector("#companionsButton").addEventListener("click", (event) => {
+			window.location.href = `/companions.html?id=${localStorage.getItem("currentCharacterId")}`;
+		});
+
+		document.querySelector("#submitEditSpell").addEventListener("click",(event)=>{
+			const quote = document.querySelector("#inputName").value;
+			const movie = document.querySelector("#inputLevel").value;
+			rhit.fbSingleSpellsDetailManager.update(quote, movie);
+
+		});
+
+		$("#editSpellDialog").on("show.bs.modal", () => {
+			document.querySelector("#inputName").value = rhit.fbSingleSpellsDetailManager.name;
+			document.querySelector("#inputLevel").value = rhit.fbSingleSpellsDetailManager.level;
+		});
+
+		$("#editSpellDialog").on("shown.bs.modal", () => {
+			document.querySelector("#inputName").focus();
+		});
+
+		document.querySelector("#submitDeleteSpell").addEventListener("click",(event)=>{
+			rhit.fbSingleSpellsDetailManager.delete().then(function(){
+				window.location.href=`/Spells.html?id=${localStorage.getItem("currentCharacterId")}`; 
+			}).catch(function(error){
+	
+			});
+
+		});
+		rhit.fbSingleSpellsDetailManager.beginListening(this.updateView.bind(this));
+	}
+	updateView() {  
+		document.querySelector("#cardName").innerHTML = rhit.fbSingleSpellsDetailManager.name;
+		document.querySelector("#cardLevel").innerHTML = rhit.fbSingleSpellsDetailManager.level;
+
+		if(rhit.fbSingleSpellsDetailManager.author==rhit.fbAuthManager.uid){
+			document.querySelector("#menuEdit").style.display = "flex";
+			document.querySelector("#menuDelete").style.display = "flex";
+
+		}
+	}
+   }
+
+   rhit.FbSingleSpellDetailManager = class {
+	constructor(spellId) {
+	  this._documentSnapshot = {};
+	  this._unsubscribe = null;
+	  this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_CHARACTER).doc(localStorage.getItem("currentCharacterId")).collection(rhit.FB_COLLECTION_SPELLS).doc(spellId);
+	}
+	beginListening(changeListener) {
+		this._unsubscribe = this._ref.onSnapshot((doc)=>{
+			if(doc.exists){
+				this._documentSnapshot = doc;
+				changeListener();
+			}
+			else{
+				console.log("ERROR");
+			}
+		});
+	}
+	stopListening() {
+	  this._unsubscribe();
+	}
+	update(name, level) {
+		this._ref.update({
+			[rhit.FB_KEY_SPELLNAME]: name,
+			[rhit.FB_KEY_SPELLLEVEL]: level,
+			[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now(),
+		})
+	}
+	delete() {
+		return this._ref.delete();
+	}
+
+	get name(){
+		return this._documentSnapshot.get(rhit.FB_KEY_SPELLNAME);
+	}
+	get level(){
+		return this._documentSnapshot.get(rhit.FB_KEY_SPELLLEVEL);
+	}
+	get author(){
+		return this._documentSnapshot.get(rhit.FB_KEY_AUTHOR);
+	}
+   }
 
 //List Page
 rhit.FbCharactersManager = class {
@@ -601,7 +839,7 @@ rhit.ListPageController = class {
 	constructor() {
 
 		document.querySelector("#menuShowMyCharacter").addEventListener("click", (event) => {
-
+			localStorage.setItem("currentCharacterId",null);
 			window.location.href = `/list.html?uid=${rhit.fbAuthManager.uid}`;
 		});
 		document.querySelector("#menuSignOut").addEventListener("click", (event) => {
@@ -643,6 +881,7 @@ rhit.ListPageController = class {
 			const newCard = this._createCard(mq);
 
 			newCard.onclick = (event) => {
+				localStorage.setItem("currentCharacterId",mq.id);
 				window.location.href = `/character.html?id=${mq.id}`;
 			};
 
@@ -666,6 +905,35 @@ rhit.LoginPageController = class {
 
 rhit.CharacterPageController = class {
 	constructor() {
+
+		document.querySelector("#submitEditCharacter").addEventListener("click",(event)=>{
+			const name = document.querySelector("#inputName").value;
+			const mainclass = document.querySelector("#inputClass").value;
+			const subclass = document.querySelector("#inputSubClass").value;
+
+			rhit.fbSingleCharacterManager.update(name, mainclass,subclass);
+
+		});
+
+		$("#editCharacterDialog").on("show.bs.modal", () => {
+			document.querySelector("#inputName").value = rhit.fbSingleCharacterManager.name;
+			document.querySelector("#inputClass").value = rhit.fbSingleCharacterManager.class;
+			document.querySelector("#inputSubClass").value = rhit.fbSingleCharacterManager.subclass;
+
+		});
+
+		$("#editCharacterDialog").on("shown.bs.modal", () => {
+			document.querySelector("#inputName").focus();
+		});
+
+		document.querySelector("#submitDeleteCharacter").addEventListener("click",(event)=>{
+			rhit.fbSingleCharacterManager.delete().then(function(){
+				window.location.href=`/list.html?uid=${rhit.fbAuthManager.uid}`; 
+			}).catch(function(error){
+	
+			});
+
+		});
 
 		//AC Modal
 		$("#editACDialog").on("show.bs.modal", () => {
@@ -741,7 +1009,7 @@ rhit.CharacterPageController = class {
 
 
 		document.querySelector("#menuShowMyCharacter").addEventListener("click", (event) => {
-
+			localStorage.setItem("currentCharacterId",null);
 			window.location.href = `/list.html?uid=${rhit.fbAuthManager.uid}`;
 		});
 		// Sign Out
@@ -849,6 +1117,11 @@ rhit.CharacterPageController = class {
 	}
 
 	updateView() {
+		if(rhit.fbSingleCharacterManager.author==rhit.fbAuthManager.uid){
+			document.querySelector("#menuEdit").style.display = "flex";
+			document.querySelector("#menuDelete").style.display = "flex";
+
+		}
 		//Name
 		document.querySelector("#characterName").innerHTML = rhit.fbSingleCharacterManager.name;
 		document.querySelector("#characterClass").innerHTML = rhit.fbSingleCharacterManager.class;
@@ -1029,6 +1302,14 @@ rhit.fbSingleCharacterManager = class {
 
 	stopListening() {
 		this._unsubscribe();
+	}
+	update(name, mainclass,subclass) {
+		this._ref.update({
+			[rhit.FB_KEY_NAME]: name,
+			[rhit.FB_KEY_MAINCLASS]: mainclass,
+			[rhit.FB_KEY_SUBCLASS]: subclass,
+			[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now(),
+		})
 	}
 
 	updateStr(num) {
