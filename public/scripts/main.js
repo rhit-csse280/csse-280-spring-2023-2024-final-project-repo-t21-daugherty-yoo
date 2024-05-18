@@ -1135,7 +1135,7 @@ rhit.CharacterPageController = class {
 		document.querySelector("#wisValue").innerHTML = rhit.fbSingleCharacterManager.wis;
 		document.querySelector("#chaValue").innerHTML = rhit.fbSingleCharacterManager.cha;
 
-		let prof = rhit.fbSingleCharacterManager.proficiency;
+		let prof = Number(rhit.fbSingleCharacterManager.proficiency);
 
 		//info
 		document.querySelector("#acValue").innerHTML = rhit.fbSingleCharacterManager.ac;
