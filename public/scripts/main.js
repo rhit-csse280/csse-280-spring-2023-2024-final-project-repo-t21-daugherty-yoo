@@ -362,7 +362,7 @@ rhit.CompanionDetailPageController = class {
 
 		document.querySelector("#submitDeleteCompanion").addEventListener("click",(event)=>{
 			rhit.fbSingleCompanionsDetailManager.delete().then(function(){
-				window.location.href=`/Companions.html?id=${localStorage.getItem("currentCharacterId")}`; 
+				window.location.href=`/companions.html?id=${localStorage.getItem("currentCharacterId")}`; 
 			}).catch(function(error){
 	
 			});
@@ -683,7 +683,7 @@ rhit.SpellDetailPageController = class {
 
 		document.querySelector("#submitDeleteSpell").addEventListener("click",(event)=>{
 			rhit.fbSingleSpellsDetailManager.delete().then(function(){
-				window.location.href=`/Spells.html?id=${localStorage.getItem("currentCharacterId")}`; 
+				window.location.href=`/spells.html?id=${localStorage.getItem("currentCharacterId")}`; 
 			}).catch(function(error){
 	
 			});
